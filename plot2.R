@@ -1,14 +1,14 @@
-## This script reads the data and creates "plot1.png" as per this assignment.
+## This script reads the data and creates "plot2.png" as per this assignment.
 ## The README.md of this repository has description of the assignment.
 #
 ## I have downloaded and saved the source data file household_power_consumption.txt to
 ## Data folder that is at same level as the repository folder on my computer.
 #
-## Change this to pathname on your computer for the repository
+## Change this to pathname on your computer for the repository to run this script
 #
 setwd("~/Documents/GitHub/ExData_Plotting1") 
 #
-## Install, load PNG package to use the .PNG device
+## Install, load PNG package
 #
 install.packages("png")
 library("png", lib.loc="/Library/Frameworks/R.framework/Versions/3.5/Resources/library")
@@ -24,13 +24,19 @@ data_feb_1_2_2007 <- subset(power_consumption_data, Date %in% c("1/2/2007", "2/2
 #
 data_feb_1_2_2007$Date <- as.Date(data_feb_1_2_2007$Date, format="%d/%m/%Y")
 #
-## Create histogram
+## Create POSIXct object
 #
-hist(data_feb_1_2_2007$Global_active_power, main="Global Active Power", xlab="Global Active Power (kilowatts)", ylab="Frequency", col="Red")
+DateAndTime <- paste(data_feb_1_2_2007$Date, data_feb_1_2_2007$Time) # Concatenate date and time to one string
+data_feb_1_2_2007$DateAndTime <- as.POSIXct(DateAndTime)
+#
+## Create the plot 
+#
+with(data_feb_1_2_2007, plot(Global_active_power ~ DateAndTime, type = "l", ylab="Global Active Power (kilowatts)"))
+#
 # 
-## Copy histogram to plot1.png file
+## Copy graph to plot2.png file
 #
-dev.copy(png, file = "plot1.png")
+dev.copy(png, file = "plot2.png")
 #
 ## Turn off device
 #
